@@ -1,0 +1,42 @@
+<template>
+  <style>#root { position: absolute; inset: 0; }</style>
+  <div id="root" class="stage" data-composition-id="browse" data-width="1920" data-height="1080">
+    <div id="browse-chapter" class="chapter clip" data-start="0" data-duration="4.34"><div id="browse-heading"><div class="chapter-kicker">02 / Discover</div><div class="chapter-title">Find a cause. Follow its progress.</div></div></div>
+    <div id="browse-window" class="window clip" data-start="0" data-duration="4.34">
+      <div id="browse-window-inner" class="window-inner">
+        <div class="browserbar" data-layout-ignore><div class="browser-dots"><i></i><i></i><i></i></div><div class="address">charityconnect · campaigns</div></div>
+        <div class="screen">
+          <div class="site-header">
+            <div class="site-logo"><img src="assets/images/brand-icon-192.png" alt=""><span>charity<span>connect</span></span></div>
+            <div class="site-nav"><span class="active">Campaigns</span><span>Charities</span><span>About &amp; trust</span></div>
+            <div class="site-actions"><span class="btn ghost">Find a charity</span></div>
+          </div>
+          <div class="page-body">
+            <div class="page-heading"><div><h2>Explore campaigns</h2><p>Browse verified charities and the work they support.</p></div><div id="browse-search" class="search-box">⌕ &nbsp; Search campaigns or charities</div></div>
+            <div class="filters"><span class="filter selected">All causes</span><span class="filter">Education</span><span class="filter">Health</span><span class="filter">Environment</span><span class="filter">Water &amp; Sanitation</span><span class="filter">Success stories</span></div>
+            <div class="campaign-grid">
+              <article id="browse-card-1" class="campaign-card clip" data-start="0.22" data-duration="4.12"><img src="assets/images/maternal-health.jpg" alt="Community maternal health clinic"><div class="campaign-info"><span class="verified">✓ Verified charity</span><h3>Assam maternal health outreach</h3><p>Health · Guwahati, Assam</p><div class="progress"><i style="width:68%"></i></div><div class="progress-copy"><b>68% funded</b><span>View campaign →</span></div></div></article>
+              <article id="browse-card-2" class="campaign-card clip" data-start="0.34" data-duration="4"><img src="assets/images/dialysis-support.jpg" alt="Patient receiving dialysis"><div class="campaign-info"><span class="verified">✓ Verified charity</span><h3>Dialysis support for elderly</h3><p>Health · Community care</p><div class="progress"><i style="width:54%"></i></div><div class="progress-copy"><b>54% funded</b><span>View campaign →</span></div></div></article>
+              <article id="browse-card-3" class="campaign-card clip" data-start="0.46" data-duration="3.88"><img src="assets/images/doctor-consultation.jpg" alt="Doctor consulting a patient"><div class="campaign-info"><span class="verified">✓ Verified charity</span><h3>Community health screenings</h3><p>Health · Local initiative</p><div class="progress"><i style="width:41%"></i></div><div class="progress-copy"><b>41% funded</b><span>View campaign →</span></div></div></article>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="browse-cursor-host" class="cursor-host clip" data-start="0.7" data-duration="3.64" data-layout-ignore><div id="browse-pointer" class="pointer"></div></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#browse-heading", { opacity: 0, x: -18 }, { opacity: 1, x: 0, duration: 0.38, ease: "power3.out" }, 0.06);
+    tl.fromTo("#browse-window-inner", { opacity: 0, y: 20, scale: 0.99 }, { opacity: 1, y: 0, scale: 1, duration: 0.48, ease: "power3.out" }, 0.02);
+    tl.fromTo("#browse-card-1", { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.34, ease: "power3.out" }, 0.38);
+    tl.fromTo("#browse-card-2", { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.34, ease: "power3.out" }, 0.5);
+    tl.fromTo("#browse-card-3", { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.34, ease: "power3.out" }, 0.62);
+    tl.fromTo("#browse-pointer", { x: 1510, y: 760, opacity: 0 }, { x: 970, y: 515, opacity: 1, duration: 0.55, ease: "power3.out" }, 1.25);
+    tl.to("#browse-search", { borderColor: "#07865F", duration: 0.18, ease: "power2.out" }, 1.94);
+    tl.to("#browse-pointer", { x: 1260, y: 700, duration: 0.42, ease: "power2.inOut" }, 2.04);
+    tl.to("#browse-card-1", { y: -4, duration: 0.18, ease: "power2.out" }, 2.62);
+    tl.to("#browse-card-1", { y: 0, duration: 0.2, ease: "power2.out" }, 2.8);
+    window.__timelines["browse"] = tl;
+  </script>
+</template>

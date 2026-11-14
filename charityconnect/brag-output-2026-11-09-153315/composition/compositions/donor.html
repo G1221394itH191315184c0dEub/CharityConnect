@@ -1,0 +1,39 @@
+<template>
+  <style>#root { position: absolute; inset: 0; }</style>
+  <div id="root" class="stage" data-composition-id="donor" data-width="1920" data-height="1080">
+    <div id="donor-chapter" class="chapter clip" data-start="0" data-duration="3.81"><div id="donor-heading"><div class="chapter-kicker">04 / Donor workspace</div><div class="chapter-title">Your giving, in one place.</div></div></div>
+    <div id="donor-window" class="window clip" data-start="0" data-duration="3.81">
+      <div id="donor-window-inner" class="window-inner">
+        <div class="browserbar" data-layout-ignore><div class="browser-dots"><i></i><i></i><i></i></div><div class="address">charityconnect · donor dashboard</div></div>
+        <div class="screen">
+          <div class="workspace">
+            <aside class="sidebar">
+              <div class="site-logo"><img src="assets/images/brand-icon-192.png" alt=""><span>charity<span>connect</span></span></div>
+              <div class="side-link current">Dashboard</div><div class="side-link">Campaigns</div><div id="donor-donations-link" class="side-link">My donations</div><div class="side-link">Notifications</div><div class="side-link">Profile</div>
+            </aside>
+            <main class="work-area">
+              <div class="work-top"><span>Notifications&nbsp; <b class="status">2 new</b></span><span>Supporter account</span></div>
+              <h2 class="work-heading">Welcome back</h2>
+              <div class="stat-grid"><div class="stat-card"><small>Campaigns supported</small><strong>03</strong></div><div class="stat-card"><small>My donations</small><strong>History</strong></div><div class="stat-card"><small>Giving status</small><strong>Tracked</strong></div></div>
+              <div class="two-col">
+                <section class="panel"><h3>Recent donations <span class="status blue">SIMULATED</span></h3><div class="data-row"><b>Maternal health outreach</b><span>₹500</span><span class="status blue">Success</span></div><div class="data-row"><b>Community screenings</b><span>₹250</span><span class="status blue">Success</span></div></section>
+                <section class="panel"><h3>Profile &amp; updates</h3><div class="completion"><b>Profile completion</b><strong>80%</strong></div><div class="completion-bar"><i></i></div><div class="notification">Campaign update: new progress shared.</div><div class="notification">Notifications and donation records stay together.</div></section>
+              </div>
+            </main>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="donor-cursor-host" class="cursor-host clip" data-start="0.58" data-duration="3.23" data-layout-ignore><div id="donor-pointer" class="pointer"></div></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#donor-heading", { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.38, ease: "power3.out" }, 0.05);
+    tl.fromTo("#donor-window-inner", { opacity: 0, y: 20, scale: 0.99 }, { opacity: 1, y: 0, scale: 1, duration: 0.48, ease: "power3.out" }, 0.02);
+    tl.fromTo("#donor-donations-link", { opacity: 0.65 }, { opacity: 1, duration: 0.22, ease: "power2.out" }, 1.46);
+    tl.fromTo("#donor-pointer", { x: 1530, y: 790, opacity: 0 }, { x: 250, y: 532, opacity: 1, duration: 0.58, ease: "power3.out" }, 0.88);
+    tl.to("#donor-donations-link", { backgroundColor: "#07865F", duration: 0.18, ease: "power2.out" }, 1.72);
+    tl.to("#donor-pointer", { x: 255, y: 626, duration: 0.36, ease: "power2.inOut" }, 2.32);
+    window.__timelines["donor"] = tl;
+  </script>
+</template>

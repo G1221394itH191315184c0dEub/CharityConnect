@@ -1,0 +1,35 @@
+<template>
+  <style>#root { position: absolute; inset: 0; }</style>
+  <div id="root" class="stage" data-composition-id="discover" data-width="1920" data-height="1080">
+    <div id="discover-chapter" class="chapter clip" data-start="0" data-duration="3.01"><div id="discover-heading"><div class="chapter-kicker">01 / CharityConnect</div><div class="chapter-title">Support a cause. Make a difference.</div></div></div>
+    <div id="discover-window" class="window clip" data-start="0" data-duration="3.01">
+      <div id="discover-window-inner" class="window-inner">
+        <div class="browserbar" data-layout-ignore><div class="browser-dots"><i></i><i></i><i></i></div><div class="address">charityconnect · public</div></div>
+        <div class="screen">
+          <div class="site-header">
+            <div class="site-logo"><img src="assets/images/brand-icon-192.png" alt=""><span>charity<span>connect</span></span></div>
+            <div class="site-nav"><span class="active">Explore campaigns</span><span>How it works</span><span>About us</span></div>
+            <div class="site-actions"><span class="eyebrow">Log in</span><span class="btn">Join Us</span></div>
+          </div>
+          <section class="home-hero">
+            <div class="home-copy">
+              <h1>Small acts.<br><em>Lasting change.</em></h1>
+              <div class="button-row"><span id="discover-cta" class="btn">Explore campaigns <span aria-hidden="true">&nbsp;→</span></span></div>
+            </div>
+            <div class="photo-wrap"><img src="assets/images/doctor-consultation.jpg" alt="A doctor speaking with a patient"><div class="impact-card"><small>Community giving</small><strong>Tracked with clarity</strong><span class="sim-label">SIMULATED DEMO DATA</span></div></div>
+          </section>
+        </div>
+      </div>
+    </div>
+    <div id="discover-cursor-host" class="cursor-host clip" data-start="1.25" data-duration="1.76" data-layout-ignore><div id="discover-pointer" class="pointer"></div></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#discover-heading", { opacity: 0, y: 22 }, { opacity: 1, y: 0, duration: 0.42, ease: "power3.out" }, 0.08);
+    tl.fromTo("#discover-window-inner", { y: 24, scale: 0.985 }, { y: 0, scale: 1, duration: 0.52, ease: "power3.out" }, 0.04);
+    tl.fromTo("#discover-pointer", { x: 1490, y: 800, opacity: 0 }, { x: 440, y: 718, opacity: 1, duration: 0.68, ease: "power3.out" }, 1.42);
+    tl.to("#discover-cta", { scale: 0.97, duration: 0.09, ease: "power2.out" }, 2.38);
+    tl.to("#discover-cta", { scale: 1, duration: 0.13, ease: "power2.out" }, 2.47);
+    window.__timelines["discover"] = tl;
+  </script>
+</template>

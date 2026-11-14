@@ -1,0 +1,50 @@
+<template>
+  <style>#root { position: absolute; inset: 0; }</style>
+  <div id="root" class="stage" data-composition-id="give" data-width="1920" data-height="1080">
+    <div id="give-chapter" class="chapter clip" data-start="0" data-duration="4.12"><div id="give-heading"><div class="chapter-kicker">03 / Give with clarity</div><div class="chapter-title">See the details. Choose what feels right.</div></div></div>
+    <div id="give-window" class="window clip" data-start="0" data-duration="4.12">
+      <div id="give-window-inner" class="window-inner">
+        <div class="browserbar" data-layout-ignore><div class="browser-dots"><i></i><i></i><i></i></div><div class="address">charityconnect · campaign details</div></div>
+        <div class="screen">
+          <div class="site-header">
+            <div class="site-logo"><img src="assets/images/brand-icon-192.png" alt=""><span>charity<span>connect</span></span></div>
+            <div class="site-nav"><span class="active">Campaign</span><span>Verified charity</span><span>Updates</span></div>
+            <div class="site-actions"><span class="btn ghost">← Back to campaigns</span></div>
+          </div>
+          <div class="page-body">
+            <div class="detail-layout">
+              <div class="detail-copy">
+                <span class="verified">✓ Verified · Health</span>
+                <h2>Assam maternal outreach</h2>
+                <p>Community visits.</p>
+                <div class="detail-photo"><img src="assets/images/maternal-health.jpg" alt="Community health clinic in Mizoram"></div>
+                <div class="progress"><i style="width:68%"></i></div><div class="progress-copy"><b>68% funded</b><span>Progress</span></div>
+              </div>
+              <div class="giving-panel">
+                <h3>Choose amount</h3>
+                <div class="amounts"><span class="amount">₹250</span><span id="give-amount" class="amount chosen">₹500</span><span class="amount">₹1,000</span></div>
+                <span id="give-cta" class="btn">Continue</span>
+                <div class="demo-notice">SIMULATED<br>No real money moves.</div>
+                <div id="give-confirmation" class="notification"><strong>✓</strong></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="give-cursor-host" class="cursor-host clip" data-start="0.65" data-duration="3.47" data-layout-ignore><div id="give-pointer" class="pointer"></div></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#give-heading", { opacity: 0, x: 18 }, { opacity: 1, x: 0, duration: 0.38, ease: "power3.out" }, 0.06);
+    tl.fromTo("#give-window-inner", { opacity: 0, y: 20, scale: 0.99 }, { opacity: 1, y: 0, scale: 1, duration: 0.46, ease: "power3.out" }, 0.02);
+    tl.fromTo("#give-confirmation", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.32, ease: "power3.out" }, 2.18);
+    tl.fromTo("#give-pointer", { x: 1570, y: 820, opacity: 0 }, { x: 1304, y: 640, opacity: 1, duration: 0.48, ease: "power3.out" }, 1.12);
+    tl.to("#give-amount", { scale: 0.95, duration: 0.1, ease: "power2.out" }, 1.74);
+    tl.to("#give-amount", { scale: 1, duration: 0.13, ease: "power2.out" }, 1.84);
+    tl.to("#give-pointer", { x: 1466, y: 724, duration: 0.28, ease: "power2.inOut" }, 1.92);
+    tl.to("#give-cta", { scale: 0.97, duration: 0.08, ease: "power2.out" }, 2.22);
+    tl.to("#give-cta", { scale: 1, duration: 0.12, ease: "power2.out" }, 2.3);
+    window.__timelines["give"] = tl;
+  </script>
+</template>

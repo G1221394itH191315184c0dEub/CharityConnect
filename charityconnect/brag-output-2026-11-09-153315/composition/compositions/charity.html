@@ -1,0 +1,39 @@
+<template>
+  <style>#root { position: absolute; inset: 0; }</style>
+  <div id="root" class="stage" data-composition-id="charity" data-width="1920" data-height="1080">
+    <div id="charity-chapter" class="chapter clip" data-start="0" data-duration="4.36"><div id="charity-heading"><div class="chapter-kicker">05 / Charity workspace</div><div class="chapter-title">Create. Manage. Share.</div></div></div>
+    <div id="charity-window" class="window clip" data-start="0" data-duration="4.36">
+      <div id="charity-window-inner" class="window-inner">
+        <div class="browserbar" data-layout-ignore><div class="browser-dots"><i></i><i></i><i></i></div><div class="address">charityconnect · charity dashboard</div></div>
+        <div class="screen">
+          <div class="workspace">
+            <aside class="sidebar">
+              <div class="site-logo"><img src="assets/images/brand-icon-192.png" alt=""><span>charity<span>connect</span></span></div>
+              <div class="side-link current">Dashboard</div><div class="side-link">My profile</div><div class="side-link">My campaigns</div><div id="charity-create-link" class="side-link">＋ Create campaign</div><div class="side-link">Share / QR</div><div class="side-link">Notifications</div>
+            </aside>
+            <main class="work-area">
+              <div class="work-top"><span>Charity workspace</span><span class="status">Verified profile</span></div>
+              <h2 class="work-heading">Your campaign activity</h2>
+              <div class="stat-grid"><div class="stat-card"><small>Campaigns</small><strong>04</strong></div><div class="stat-card"><small>Active campaigns</small><strong>02</strong></div><div class="stat-card"><small>Supporters</small><strong>Tracked</strong></div></div>
+              <div class="two-col">
+                <section class="panel"><h3>New campaign</h3><div class="form-row"><div class="field">Campaign title</div><div class="field">Cause category</div></div><div class="form-row"><div class="field">Fundraising goal</div><div class="field">Campaign dates</div></div><span class="btn small-btn">Save draft · Submit for review</span></section>
+                <section class="panel"><h3>Campaign management</h3><div class="data-row"><b>Maternal health outreach</b><span class="status">Active</span><span>Post update</span></div><h3 style="margin-top:14px">Share your work</h3><div class="share-link">charityconnect / campaigns / your-story &nbsp; <b>Copy link</b></div></section>
+              </div>
+            </main>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="charity-cursor-host" class="cursor-host clip" data-start="0.66" data-duration="3.7" data-layout-ignore><div id="charity-pointer" class="pointer"></div></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#charity-heading", { opacity: 0, x: -18 }, { opacity: 1, x: 0, duration: 0.38, ease: "power3.out" }, 0.05);
+    tl.fromTo("#charity-window-inner", { opacity: 0, y: 20, scale: 0.99 }, { opacity: 1, y: 0, scale: 1, duration: 0.48, ease: "power3.out" }, 0.02);
+    tl.fromTo("#charity-pointer", { x: 1540, y: 800, opacity: 0 }, { x: 260, y: 540, opacity: 1, duration: 0.58, ease: "power3.out" }, 0.95);
+    tl.to("#charity-create-link", { backgroundColor: "#07865F", duration: 0.18, ease: "power2.out" }, 1.7);
+    tl.to("#charity-pointer", { x: 1360, y: 740, duration: 0.52, ease: "power2.inOut" }, 2.34);
+    tl.fromTo(".share-link", { borderColor: "#C9D8D3" }, { borderColor: "#07865F", duration: 0.25, ease: "power2.out" }, 3.08);
+    window.__timelines["charity"] = tl;
+  </script>
+</template>

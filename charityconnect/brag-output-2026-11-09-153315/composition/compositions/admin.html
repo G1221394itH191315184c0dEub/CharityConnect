@@ -1,0 +1,44 @@
+<template>
+  <style>#root { position: absolute; inset: 0; }</style>
+  <div id="root" class="stage" data-composition-id="admin" data-width="1920" data-height="1080">
+    <div id="admin-chapter" class="chapter clip" data-start="0" data-duration="2.6"><div id="admin-heading"><div class="chapter-kicker">06 / Admin workspace</div><div class="chapter-title">Review, report, and keep it clear.</div></div></div>
+    <div id="admin-window" class="window clip" data-start="0" data-duration="2.6">
+      <div id="admin-window-inner" class="window-inner">
+        <div class="browserbar" data-layout-ignore><div class="browser-dots"><i></i><i></i><i></i></div><div class="address">charityconnect · administrator</div></div>
+        <div class="screen">
+          <div class="workspace">
+            <aside class="sidebar">
+              <div class="site-logo"><span>charity<span>connect</span></span></div>
+              <div class="side-link current">Dashboard</div><div class="side-link">Users</div><div class="side-link">Charities</div><div class="side-link">Campaigns</div><div class="side-link">Donations</div><div class="side-link">Reports</div><div class="side-link">Notifications</div>
+            </aside>
+            <main class="work-area">
+              <div class="work-top"><span>Administration · Demo workspace</span></div>
+              <h2 class="work-heading">Platform overview</h2>
+              <div class="stat-grid"><div class="stat-card"><small>Charities awaiting review</small><strong>03</strong></div><div class="stat-card"><small>Campaigns to review</small><strong>05</strong></div><div class="stat-card"><small>Donation records</small><strong>Status tracked</strong></div></div>
+              <div class="admin-grid">
+                <section class="admin-queue"><h3>Approval queue</h3>                <div class="queue-item"><b>Charity profile</b><span class="status blue">Pending</span></div><div class="queue-item"><b>Campaign review</b><span id="admin-approved" class="status blue">Pending</span></div><div class="queue-item"><span>Reason &amp; history</span><span class="btn small-btn">Approve</span></div></section>
+                <section class="panel"><h3>Reports · donations by status</h3><table class="report-table"><thead><tr><th>Status</th><th>Type</th><th>Count</th></tr></thead><tbody><tr><td>Success</td><td>Simulated</td><td>Tracked</td></tr><tr><td>Pending</td><td>Awaiting</td><td>Tracked</td></tr><tr><td>Failed / cancelled</td><td>Not counted</td><td>Recorded</td></tr></tbody></table></section>
+              </div>
+            </main>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="admin-cursor-host" class="cursor-host clip" data-start="0.18" data-duration="2.42" data-layout-ignore><div id="admin-pointer" class="pointer"></div></div>
+    <div id="admin-outro" class="outro clip" data-start="2.6" data-duration="2.32" data-layout-allow-overlap>
+      <div id="admin-outro-lockup" class="outro-lockup">
+        <div class="outro-logo"><img src="assets/images/brand-icon-192.png" alt=""><span>charity<span>connect</span></span></div>
+        <div class="outro-line">Small acts. Lasting change.</div>
+      </div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#admin-heading", { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.38, ease: "power3.out" }, 0.05);
+    tl.fromTo("#admin-window-inner", { opacity: 0, y: 20, scale: 0.99 }, { opacity: 1, y: 0, scale: 1, duration: 0.46, ease: "power3.out" }, 0.02);
+    tl.fromTo("#admin-pointer", { x: 1580, y: 830, opacity: 0 }, { x: 940, y: 720, opacity: 1, duration: 0.42, ease: "power3.out" }, 0.23);
+    tl.to("#admin-approved", { backgroundColor: "#EAF6F2", color: "#07865F", duration: 0.18, ease: "power2.out" }, 0.6);
+    tl.fromTo("#admin-outro-lockup", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.18, ease: "power3.out" }, 2.6);
+    window.__timelines["admin"] = tl;
+  </script>
+</template>
