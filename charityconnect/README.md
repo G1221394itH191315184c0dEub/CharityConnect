@@ -25,6 +25,9 @@ node server/seed.js --reset   # wipe and re-seed dev data (refuses in production
 ```
 Config: copy `.env.example` to `.env` (placeholders only; `.env` is git-ignored).
 
+## Deploy to GitHub Pages
+GitHub Pages can host the frontend; the Node.js API and persistent SQLite database must be deployed separately. Follow [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) to configure the backend origin and enable the Pages workflow.
+
 ### Demo accounts (development seed only)
 | Role | Email | Password |
 |---|---|---|

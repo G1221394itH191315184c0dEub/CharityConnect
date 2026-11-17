@@ -51,10 +51,36 @@ test('auth: register, sign in, duplicate email, validation, no ADMIN signup', as
 test('auth: login failure, me, logout invalidates session', async () => {
   const c = await client();
   assert.equal((await c.login('donor@charityconnect.test', 'wrong')).status, 401);
-  assert.equal((await c.call('GET', '/api/auth/me')).status, 401);
+  assert.deepEqual((await c.call('GET', '/api/auth/me')).body, { user: null, unread: 0 });
   assert.equal((await c.login('donor@charityconnect.test', 'Donor@12345')).status, 200);
   const me = await c.call('GET', '/api/auth/me'); assert.equal(me.body.user.role, 'DONOR'); assert.equal(me.body.user.password_hash, undefined);
-  await c.call('POST', '/api/auth/logout'); assert.equal((await c.call('GET', '/api/auth/me')).status, 401);
+  await c.call('POST', '/api/auth/logout'); assert.deepEqual((await c.call('GET', '/api/auth/me')).body, { user: null, unread: 0 });
+});
+
+test('configured Pages frontend can call the API with credentialed CORS', async () => {
+  const frontendOrigin = 'https://charity.example.github.io';
+  const corsApp = mk({ NODE_ENV: 'production', FRONTEND_ORIGIN: frontendOrigin, ADMIN_EMAIL: 'admin@charityconnect.test', ADMIN_PASSWORD: 'Admin@12345' });
+  const corsBase = await listen(corsApp);
+  try {
+    const preflight = await fetch(corsBase + '/api/auth/login', {
+      method: 'OPTIONS',
+      headers: { Origin: frontendOrigin, 'Access-Control-Request-Method': 'POST', 'Access-Control-Request-Headers': 'content-type' },
+    });
+    assert.equal(preflight.status, 204);
+    assert.equal(preflight.headers.get('access-control-allow-origin'), frontendOrigin);
+    assert.equal(preflight.headers.get('access-control-allow-credentials'), 'true');
+
+    const login = await fetch(corsBase + '/api/auth/login', {
+      method: 'POST',
+      headers: { Origin: frontendOrigin, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: 'admin@charityconnect.test', password: 'Admin@12345' }),
+    });
+    assert.equal(login.status, 200);
+    assert.match(login.headers.get('set-cookie'), /SameSite=None; Path=\/;.*Secure/);
+    assert.equal(login.headers.get('access-control-allow-origin'), frontendOrigin);
+  } finally {
+    corsApp.close();
+  }
 });
 
 test('donor profile: private uploads, address, and completion tracking', async () => {
@@ -492,7 +518,7 @@ test('admin: user disable blocks login and cannot target self/admins; reports se
   const ravi = app.db.prepare("SELECT id FROM users WHERE email='ravi@charityconnect.test'").get().id;
   const sess = await as('ravi@charityconnect.test', 'Donor@12345');
   assert.equal((await admin.call('PATCH', `/api/admin/users/${ravi}/status`, { status: 'DISABLED' })).status, 200);
-  assert.equal((await sess.call('GET', '/api/auth/me')).status, 401, 'existing sessions revoked');
+  assert.equal((await sess.call('GET', '/api/auth/me')).body.user, null, 'existing sessions revoked');
   assert.equal((await (await client()).login('ravi@charityconnect.test', 'Donor@12345')).status, 403);
   const adminId = app.db.prepare("SELECT id FROM users WHERE role='ADMIN'").get().id;
   assert.equal((await admin.call('PATCH', `/api/admin/users/${adminId}/status`, { status: 'DISABLED' })).status, 409);

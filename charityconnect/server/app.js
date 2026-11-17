@@ -111,11 +111,12 @@ function campaignOut(c, { private: priv = false } = {}) {
 export function createApp({ dbPath = ':memory:', env = process.env } = {}) {
   const db = openDb(dbPath);
   if (db.prepare('SELECT COUNT(*) n FROM users').get().n === 0) seed(db, env);
+  const prod = env.NODE_ENV === 'production';
+  const frontendOrigin = env.FRONTEND_ORIGIN ? new URL(env.FRONTEND_ORIGIN).origin : '';
   const q = (sql, ...p) => db.prepare(sql).all(...p);
   const one = (sql, ...p) => db.prepare(sql).get(...p);
   const run = (sql, ...p) => db.prepare(sql).run(...p);
   const provider = getProvider(env.PAYMENT_MODE);
-  const prod = env.NODE_ENV === 'production';
   const hits = new Map();
   const rateLimit = (key, max = 10, windowMs = 15 * 60 * 1000) => {
     const now = Date.now(), arr = (hits.get(key) || []).filter((t) => now - t < windowMs);
@@ -207,15 +208,16 @@ export function createApp({ dbPath = ':memory:', env = process.env } = {}) {
     run('DELETE FROM sessions WHERE expires_at < ?', Date.now());
     const token = randomBytes(32).toString('hex');
     run('INSERT INTO sessions VALUES(?,?,?)', sha(token), u.id, Date.now() + SESSION_MS);
-    res.setHeader('Set-Cookie', `cc_sid=${token}; HttpOnly; SameSite=Lax; Path=/; Max-Age=${SESSION_MS / 1000}${prod ? '; Secure' : ''}`);
+    res.setHeader('Set-Cookie', `cc_sid=${token}; HttpOnly; SameSite=${prod && frontendOrigin ? 'None' : 'Lax'}; Path=/; Max-Age=${SESSION_MS / 1000}${prod ? '; Secure' : ''}`);
     return { body: { user: publicUser(u) } };
   });
   R('POST', '/api/auth/logout', null, ({ req, res }) => {
     const t = cookie(req, 'cc_sid'); if (t) run('DELETE FROM sessions WHERE token_hash=?', sha(t));
-    res.setHeader('Set-Cookie', 'cc_sid=; HttpOnly; SameSite=Lax; Path=/; Max-Age=0');
+    res.setHeader('Set-Cookie', `cc_sid=; HttpOnly; SameSite=${prod && frontendOrigin ? 'None' : 'Lax'}; Path=/; Max-Age=0${prod ? '; Secure' : ''}`);
     return { body: { ok: true } };
   });
-  R('GET', '/api/auth/me', 'any', ({ user }) => {
+  R('GET', '/api/auth/me', null, ({ user }) => {
+    if (!user) return { body: { user: null, unread: 0 } };
     const out = { user: publicUser(user), unread: one('SELECT COUNT(*) n FROM notifications WHERE user_id=? AND is_read=0', user.id).n };
     if (user.role === 'CHARITY') { const c = one('SELECT id,name,status,review_note FROM charities WHERE user_id=?', user.id); out.charity = c; }
     return { body: out };
@@ -736,13 +738,31 @@ export function createApp({ dbPath = ':memory:', env = process.env } = {}) {
     const url = new URL(req.url, 'http://x');
     if (!url.pathname.startsWith('/api/')) return serveStatic(url.pathname, res);
     const send = (status, body) => { res.writeHead(status, { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' }); res.end(JSON.stringify(body)); };
+    const origin = req.headers.origin;
+    let trustedFrontend = false;
+    if (origin && frontendOrigin) {
+      try { trustedFrontend = new URL(origin).origin === frontendOrigin; } catch { trustedFrontend = false; }
+    }
+    if (trustedFrontend) {
+      res.setHeader('Access-Control-Allow-Origin', frontendOrigin);
+      res.setHeader('Access-Control-Allow-Credentials', 'true');
+      res.setHeader('Vary', 'Origin');
+    }
+    if (req.method === 'OPTIONS') {
+      if (!trustedFrontend) return send(403, { error: { code: 'CORS', message: 'Origin not allowed' } });
+      res.setHeader('Access-Control-Allow-Methods', 'GET, HEAD, POST, PATCH, OPTIONS');
+      res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+      res.writeHead(204); return res.end();
+    }
     try {
       const route = routes.map((r) => ({ r, m: r.method === req.method && url.pathname.match(r.re) })).find((x) => x.m);
       if (!route) { if (routes.some((r) => r.re.test(url.pathname))) throw new HttpError(405, 'Method not allowed'); throw new HttpError(404, 'Not found'); }
       const { r, m } = route; const mutating = req.method !== 'GET' && req.method !== 'HEAD';
       const isHook = url.pathname === '/api/payments/webhooks/youpi';
       if (mutating && !isHook) {
-        const origin = req.headers.origin; if (origin && new URL(origin).host !== req.headers.host) throw new HttpError(403, 'Cross-origin request blocked', 'CSRF');
+        let sameOrigin = false;
+        if (origin) { try { sameOrigin = new URL(origin).host === req.headers.host; } catch { sameOrigin = false; } }
+        if (origin && !sameOrigin && !trustedFrontend) throw new HttpError(403, 'Cross-origin request blocked', 'CSRF');
       }
       let user = null;
       const tok = cookie(req, 'cc_sid');

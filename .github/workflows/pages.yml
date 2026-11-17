@@ -1,0 +1,55 @@
+name: Deploy CharityConnect to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    if: ${{ vars.API_BASE_URL != '' }}
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Prepare static frontend
+        env:
+          API_BASE_URL: ${{ vars.API_BASE_URL }}
+        run: |
+          mkdir dist
+          if [ -d charityconnect/public ]; then
+            cp -R charityconnect/public/. dist/
+          else
+            cp -R public/. dist/
+          fi
+          node -e 'require("node:fs").writeFileSync("dist/config.js", `globalThis.CHARITYCONNECT_API_URL = ${JSON.stringify(process.env.API_BASE_URL)};\n`);'
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
