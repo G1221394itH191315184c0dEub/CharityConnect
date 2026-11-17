@@ -1,0 +1,14 @@
+{
+  "name": "CharityConnect",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:1-22-bookworm",
+  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}/charityconnect",
+  "forwardPorts": [3000],
+  "portsAttributes": {
+    "3000": {
+      "label": "CharityConnect",
+      "onAutoForward": "openBrowser"
+    }
+  },
+  "postCreateCommand": "npm install && npm run seed",
+  "postAttachCommand": "npm run dev"
+}
