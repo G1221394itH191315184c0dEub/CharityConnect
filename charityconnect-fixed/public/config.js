@@ -1,1 +1,0 @@
-globalThis.CHARITYCONNECT_API_URL = '';
