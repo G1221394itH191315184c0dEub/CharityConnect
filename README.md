@@ -1,3 +1,6 @@
+
+https://github.com/user-attachments/assets/428cfa31-69df-4e94-b325-49736d40c41d
+
 # CharityConnect
 
 Role-based charity crowdfunding platform (Donor / Charity / Admin) inspired by Ketto and Milaap, built as an academic project. Original branding and copy; all data is fictional.
