@@ -2,6 +2,9 @@
 
 Role-based charity crowdfunding platform (Donor / Charity / Admin) inspired by Ketto and Milaap, built as an academic project. Original branding and copy; all data is fictional.
 
+## **Live Demo**
+https://charityconnect-c85e.onrender.com/
+
 ## Stack, and a deliberate deviation
 The brief preferred React + TypeScript + Vite + Tailwind + Prisma + Express. This build was created in a sandbox **without network access**, so no npm package could be installed or tested. To deliver something that actually runs and was actually tested, it uses **zero dependencies**:
 
